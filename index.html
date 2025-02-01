@@ -150,11 +150,26 @@
         }
 
         /* All Icons Buttons */
+        /* Default: Buttons side-by-side */
         .icons {
-            display: flex; /* Ensures icons are side-by-side */
-            justify-content: center; /* Centers icons horizontally */
-            gap: 1rem; /* Adds spacing between icons */
+            display: flex;
+            justify-content: center; /* Centers horizontally */
+            gap: 1rem; /* Spacing between buttons */
             margin-top: 1rem;
+        }
+
+        /* Mobile: Stack buttons below 440px */
+        @media (max-width: 440px) {
+            .icons {
+                flex-direction: column; /* Stack buttons vertically */
+                align-items: center; /* Center-align buttons */
+            }
+
+            .icons a {
+                width: 100%; /* Make buttons take full width */
+                text-align: center;
+                padding: 1rem; /* Add padding for better touch experience */
+            }
         }
 
         /* Icon styles */
