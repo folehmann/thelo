@@ -38,6 +38,8 @@
         .container.style2 {
             margin: 10rem 0; /* Increase spacing between sections */
             padding: 2rem 0; /* Add internal spacing */
+            display: flex; /* Ensure flex layout */
+            gap: 1cm; /* Add a 1cm gap between image and text */
         }
 
         /* Header (Footer at the Top) */
@@ -191,6 +193,76 @@
             background-color: transparent; /* Ensures no background color */
         }
 
+        /* Image Slider */
+        .image-slider {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            position: relative;
+            width: 100%;
+            max-width: 800px;
+            margin: auto;
+        }
+        
+        .image-container {
+            width: 100%;
+            max-width: 800px;
+            height: auto;
+            text-align: center;
+            position: relative;
+        }
+        
+        .image-container img {
+            width: 100%;
+            max-height: 500px;
+            border-radius: 10px;
+            transition: opacity 0.5s ease-in-out;
+        }
+    
+        .chart-label {
+            font-size: 1.2em;
+            font-weight: 500;
+            color: #333;
+            text-align: center;
+            margin-top: 10px;
+        }
+    
+        .prev-button, .next-button {
+            background: #9A8AB5;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            font-size: 20px;
+            cursor: pointer;
+            border-radius: 50%;
+            transition: 0.3s;
+        }
+        
+        .prev-button:hover, .next-button:hover {
+            background: #7C6A96;
+        }
+        
+        .slider-dots {
+            text-align: center;
+            margin-top: 15px;
+        }
+        
+        .dot {
+            height: 12px;
+            width: 12px;
+            margin: 0 5px;
+            background-color: #bbb;
+            border-radius: 50%;
+            display: inline-block;
+            transition: background-color 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .dot.active {
+            background-color: #9A8AB5;
+        }
+
         /* Footer */
         .footer {
             display: flex;
@@ -231,7 +303,7 @@
             <img src="assets/images/thelo.png" alt="Thelo Logo">
         </div>
         <div class="icons">
-            <a href="https://www.boerse-duesseldorf.de/etc/DE000A2EFTK4/opus-charter-iss-s-a-cpmt55-thelo-cap-basket-10-03-32/" class="icon performance">Performance</a>
+            <a href="https://www.boerse-duesseldorf.de/etc/DE000A2EFTK4/opus-charter-iss-s-a-cpmt55-thelo-cap-basket-10-03-32/" class="icon performance">WKN</a>
         </div>
     </header>
     <div id="wrapper">
@@ -243,14 +315,14 @@
                     <h2 class="style6">THELO</h2>
                     <p class="style3">'Have peace of mind and see your money grow long-term'</p>
                     <div class="icons">
-                        <a href="#learn-more-section" class="icon learn-more">Learn more</a>
-                        <a href="#contact-section" class="icon contact">Contact</a>
+                        <a href="#learn-more" class="icon learn-more">Learn more</a>
+                        <a href="#contact" class="icon contact">Contact</a>
                     </div>                    
                 </div>
             </div>
 
             <!-- What We Do -->
-            <div class="container style2" id="learn-more-section">
+            <div class="container style2" id="learn-more">
                 <div class="text-content">
                     <h2 class="style5">What We Do</h2>
                     <p class="style3">Thelo Kapital GmbH is the BaFin registered entity of the Lehmann Family Office. Our sole focus is on European higher yielding credits, backed by a strong fundamental research provided by leading analysts from bank and non-bank backgrounds.
@@ -268,17 +340,39 @@
                 </div>
             </div>
 
-            <!-- Portfolio -->
+            <!-- Portfolio Section with Swipeable Charts -->
             <div class="container style2">
                 <div class="text-content">
                     <h2 class="style5">Portfolio</h2>
-                    <p class="style3">The portfolio consists of approx. 45 names with an average Coupon of > 8% and an average maturity of less than 3 years. The investments are supported by constant conversations with management and bank independent analysts; this is the basis for superior returns beating benchmarks in 1y, 3y and 5y maturities.</p>
+                    <p class="style3">
+                        The portfolio consists of approx. 45 names with an average Coupon of > 8% and an average maturity of less than 3 years. 
+                        The investments are supported by constant conversations with management and bank-independent analysts; this is the basis 
+                        for superior returns beating benchmarks in 1y, 3y, and 5y maturities.
+                    </p>
                 </div>
-                <div class="image"><img src="assets/images/portfolio.jpg" alt="Portfolio" class="image-inline"></div>
+                
+                <!-- Image Slider -->
+                <div class="image-slider">
+                    <div class="image-container">
+                        <img id="chart-image" src="https://www.boerse-duesseldorf.de/chart/?code=DE000A2EFTK4.dus&size=800*500&span=1y" 
+                             alt="1-Year Chart" class="image-inline">
+
+                        <!-- Navigation Dots (Moved onto the Image) -->
+                        <div class="slider-dots">
+                            <button class="prev-button">&#10094;</button>
+                            <span class="dot active" onclick="changeSlide(0)"></span>
+                            <span class="dot" onclick="changeSlide(1)"></span>
+                            <span class="dot" onclick="changeSlide(2)"></span>
+                            <button class="next-button">&#10095;</button>
+                        </div>
+
+                        <p id="chart-label" class="chart-label">1 Year Performance</p>
+                    </div>
+                </div>
             </div>
 
             <!-- Contact Section -->
-            <div class="container style1" id="contact-section">
+            <div class="container style1" id="contact">
                 <div class="image"><img src="assets/images/tree2_square.jpg" alt="Contact"></div>
                 <div class="text-content">
                     <h2 class="style5">Contact</h2>
@@ -305,6 +399,36 @@
                 }
             });
         };
+    </script>
+    <script>
+        const chartImages = [
+            { src: "https://www.boerse-duesseldorf.de/chart/?code=DE000A2EFTK4.dus&size=800*500&span=1y", label: "1 Year Performance" },
+            { src: "https://www.boerse-duesseldorf.de/chart/?code=DE000A2EFTK4.dus&size=800*500&span=3y", label: "3 Year Performance" },
+            { src: "https://www.boerse-duesseldorf.de/chart/?code=DE000A2EFTK4.dus&size=800*500&span=5y", label: "5 Year Performance" }
+        ];
+    
+        let currentIndex = 0;
+    
+        function changeSlide(index) {
+            currentIndex = index;
+            document.getElementById("chart-image").src = chartImages[currentIndex].src;
+            document.getElementById("chart-label").innerText = chartImages[currentIndex].label;
+    
+            // Update active dot
+            document.querySelectorAll(".dot").forEach((dot, i) => {
+                dot.classList.toggle("active", i === currentIndex);
+            });
+        }
+    
+        document.querySelector(".prev-button").addEventListener("click", () => {
+            currentIndex = (currentIndex - 1 + chartImages.length) % chartImages.length;
+            changeSlide(currentIndex);
+        });
+    
+        document.querySelector(".next-button").addEventListener("click", () => {
+            currentIndex = (currentIndex + 1) % chartImages.length;
+            changeSlide(currentIndex);
+        });
     </script>
     <!-- Footer -->
     <footer class="footer">
